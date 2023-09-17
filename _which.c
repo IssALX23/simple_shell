@@ -1,6 +1,24 @@
 #include "main.h"
 /**
- * _which : returns the path of the input command
+ * print_err_msg - prints error message
+ * @x: integer
+ *
+ * Return: void
+ */
+void print_err_msg(int x)
+{
+	if (x == 1)
+	{
+		perror("failed to allocate memory");
+		return;
+	} else if (x == 2)
+	{
+		perror("failed to open file\n");
+		return;
+	}
+}
+/**
+ * _which - returns the path of the input command
  * @cmd: input string
  *
  * Return: string of the path or NULL
@@ -17,19 +35,15 @@ char *_which(char *cmd)
 	size += strlen(cmd);
 	new_cmd = (char *)malloc(size);
 	if (!new_cmd)
-	{
-		perror("failed to allocate memory in _which\n");
-		return (NULL);
-	}
+		print_err_msg(1);
 	snprintf(new_cmd, size, "which ");
 	if (cmd)
 		strcat(new_cmd, cmd);
 	fp = popen(new_cmd, "r");
 	if (fp == NULL)
 	{
-		perror("failed to open file\n");
 		free(new_cmd);
-		return (NULL);
+		print_err_msg(2);
 	}
 	if (fgets(buffer, sizeof(buffer), fp) != NULL)
 	{
@@ -39,9 +53,8 @@ char *_which(char *cmd)
 		new_buff = (char *)malloc(strlen(buffer) + 1);
 		if (!new_buff)
 		{
-			perror("failed to allocate memory to new_buff\n");
 			free(new_cmd);
-			return (NULL);
+			print_err_msg(1);
 		}
 		strcpy(new_buff, buffer);
 		pclose(fp);
