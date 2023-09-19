@@ -26,5 +26,6 @@ void rm_newline(char *str);
 void cd_command(char *directory, char *av[], int count);
 void getInput(char **line, size_t *buffer);
 void tokenize_line(char ***pieces_array, char *line, int *count);
+int _execute_cmd(char *command, char ***pieces_array, char *program_name, char **line, int count);
 void free_data(char ***pieces_array, char **line, int i, int count);
 #endif

@@ -9,7 +9,7 @@
  *
  * Return: integer
  */
-int execute_command(char *command, char ***pieces_array,
+int _execute_cmd(char *command, char ***pieces_array,
 		char *program_name, char **line, int count)
 {
 	char *path = _which(command);

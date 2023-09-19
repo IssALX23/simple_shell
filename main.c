@@ -16,76 +16,61 @@ int main(int ac, char **av)
 
 	while (1)
 	{
-	getInput(&line, &buffer);
-	sp_count = nmb_spaces(line);
-	if (sp_count == 0)
-	{
-		free(line);
-		line = NULL;
-		continue;
-	}
-	tokenize_line(&pieces_array, line, &count);
-	for (i = 0; i < count; i++) /* check characters*/
-	{
-		for (j = 0; pieces_array[i][j] != '\0'; j++)
+		getInput(&line, &buffer);
+		sp_count = nmb_spaces(line);
+		if (sp_count == 0)
 		{
-			if (!validate_char(pieces_array[i][j]))
+			free(line);
+			line = NULL;
+			continue;
+		}
+		tokenize_line(&pieces_array, line, &count);
+		valid_chars = 1;
+		for (i = 0; i < count; i++) /* check characters*/
+		{
+			for (j = 0; pieces_array[i][j] != '\0'; j++)
 			{
-				perror("invalid character in input string\n");
-				continue;
+				if (!validate_char(pieces_array[i][j]))
+				{
+					fprintf(stderr, "%s: %s :invalid character in input string\n",
+							av[0], pieces_array[0]);
+					valid_chars = 0;
+					break;
+				}
+			}
+			if (!valid_chars)
+			{
+				break;
 			}
 		}
-	}
-	if (strcmp(pieces_array[0], "exit") == 0) /* handle built-ins*/
-	{
-		free_data(&pieces_array, &line, i, count);
-		fprintf(stderr, "exit\n");
-		exit(1);
-	} else if (strcmp(pieces_array[0], "env") == 0)
-	{
-		print_env();
-		free_data(&pieces_array, &line, i, count);
-		continue;
-	} else if (strcmp(pieces_array[0], "cd") == 0)
-	{
-		cd_command(pieces_array[1], av, count);
-		free_data(&pieces_array, &line, i, count);
-		continue;
-	}
-	path = _which(pieces_array[0]); /* handle path */
-	if (path == NULL)
-	{
-		fprintf(stderr, "%s: %s: command not found\n", av[0], pieces_array[0]);
-		for (i = 0; i < count; i++)
-			free(pieces_array[i]);
-		free(pieces_array);
-		free(line);
-		line = NULL;
-		continue; /*output promt even if cmd don't exist*/
-	}
-	child = fork(); /* execute cmd */
-	if (child == -1)
-		perror("failed to fork\n");
-	if (child == 0)
-	{
-		val = execve(path, pieces_array, NULL);
-		if (val == -1)
+		if (!valid_chars)
 		{
-			perror("error executing\n");
 			free_data(&pieces_array, &line, i, count);
-			free(path);
-			path = NULL;
-			exit(1);
+			continue;
 		}
-	} else
-		wait(NULL);
-	for (i = 0; i < count; i++) /*free memory at the end */
-		free(pieces_array[i]);
-	free(pieces_array);
-	if (path)
-		free(path);
+		if (strcmp(pieces_array[0], "exit") == 0) /* handle built-ins*/
+		{
+			free_data(&pieces_array, &line, i, count);
+			fprintf(stderr, "exit\n");
+			exit(1);
+		} else if (strcmp(pieces_array[0], "env") == 0)
+		{
+			print_env();
+			free_data(&pieces_array, &line, i, count);
+			continue;
+		} else if (strcmp(pieces_array[0], "cd") == 0)
+		{
+			cd_command(pieces_array[1], av, count);
+			free_data(&pieces_array, &line, i, count);
+			continue;
+		}
+		if ((_execute_cmd(pieces_array[0], &pieces_array,
+						av[0], &line, count)) != 0)
+		{
+			continue;
+		}
+		free_data(&pieces_array, &path, i, count);
 	}
-	free(line);
-	line = NULL;
+	free_data(NULL, &line, i, count);
 	return (0);
 }
