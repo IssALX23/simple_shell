@@ -7,11 +7,10 @@
  */
 int main(int ac, char **av)
 {
-	int count = 0, i = 0, j = 0, val = 0, sp_count = 0,
-	    (*validate_char)(char) = check_char;
+	int count = 0, i = 0, j = 0, sp_count = 0,
+	    (*validate_char)(char) = check_char, valid_chars = 0;
 	char *line = NULL, **pieces_array = NULL, *path = NULL;
 	size_t buffer = 0;
-	pid_t child;
 	(void)ac;
 
 	while (1)
@@ -39,36 +38,24 @@ int main(int ac, char **av)
 				}
 			}
 			if (!valid_chars)
-			{
 				break;
-			}
 		}
 		if (!valid_chars)
 		{
 			free_data(&pieces_array, &line, i, count);
 			continue;
 		}
-		if (strcmp(pieces_array[0], "exit") == 0) /* handle built-ins*/
+		if (strcmp(pieces_array[0], "exit") == 0 ||
+				strcmp(pieces_array[0], "env") == 0)/* handle built-ins*/
 		{
-			free_data(&pieces_array, &line, i, count);
-			fprintf(stderr, "exit\n");
-			exit(1);
-		} else if (strcmp(pieces_array[0], "env") == 0)
-		{
-			print_env();
-			free_data(&pieces_array, &line, i, count);
+			check_builtins(strcmp(pieces_array[0], "exit") == 0 ? 1 : 2,
+					&pieces_array, &line, i, count, av);
 			continue;
 		} else if (strcmp(pieces_array[0], "cd") == 0)
-		{
-			cd_command(pieces_array[1], av, count);
-			free_data(&pieces_array, &line, i, count);
-			continue;
-		}
+			check_builtins(3, &pieces_array, &line, i, count, av);
 		if ((_execute_cmd(pieces_array[0], &pieces_array,
 						av[0], &line, count)) != 0)
-		{
 			continue;
-		}
 		free_data(&pieces_array, &path, i, count);
 	}
 	free_data(NULL, &line, i, count);

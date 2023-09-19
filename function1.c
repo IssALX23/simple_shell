@@ -118,3 +118,34 @@ void free_data(char ***pieces_array, char **line, int i, int count)
 	free(*line);
 	*line = NULL;
 }
+/**
+ * check_builtins - check if it's a builtins command
+ * @checker: integer flag
+ * @pieces_array: A pointer to a pointer to an array of strings.
+ * @line: A pointer to a string
+ * @i: integer
+ * @count: integer
+ * av: array of arguments
+ *
+ * Return: void
+ */
+void check_builtins(int checker, char ***pieces_array,
+		char **line, int i, int count, char **av)
+{
+	if (checker == 1)
+	{
+		free_data(*&pieces_array, *&line, i, count);
+		fprintf(stderr, "exit\n");
+		exit(1);
+	} else if (checker == 2)
+	{
+		print_env();
+		free_data(*&pieces_array, *&line, i, count);
+		return;
+	} else if (checker == 3)
+	{
+		cd_command(*pieces_array[1], av, count);
+		free_data(*&pieces_array, *&line, i, count);
+		return;
+	}
+}
