@@ -112,11 +112,17 @@ void tokenize_line(char ***pieces_array, char *line, int *count)
  */
 void free_data(char ***pieces_array, char **line, int i, int count)
 {
-	for (i = 0; i < count; i++)
-		free((*pieces_array)[i]);
-	free(*pieces_array);
-	free(*line);
-	*line = NULL;
+	if (pieces_array) 
+	{
+		for (i = 0; i < count; i++)
+			free((*pieces_array)[i]);
+		free(*pieces_array);
+	}
+	if (line) 
+	{
+		free(*line);
+		*line = NULL;
+	}
 }
 /**
  * check_builtins - check if it's a builtins command

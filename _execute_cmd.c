@@ -43,11 +43,11 @@ int _execute_cmd(char *command, char ***pieces_array,
 			free(*pieces_array);
 			free(path);
 			exit(1);
-		} else
-		{
-			wait(NULL);
-			free(path);
 		}
+	}else
+	{
+		wait(NULL);
+		free(path);
 	}
 	return (0);
 }
