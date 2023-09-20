@@ -44,7 +44,7 @@ int _execute_cmd(char *command, char ***pieces_array,
 			free(path);
 			exit(1);
 		}
-	}else
+	} else
 	{
 		wait(NULL);
 		free(path);

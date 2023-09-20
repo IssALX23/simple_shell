@@ -52,7 +52,10 @@ int main(int ac, char **av)
 					&pieces_array, &line, i, count, av);
 			continue;
 		} else if (strcmp(pieces_array[0], "cd") == 0)
+		{
 			check_builtins(3, &pieces_array, &line, i, count, av);
+			continue;
+		}
 		if ((_execute_cmd(pieces_array[0], &pieces_array,
 						av[0], &line, count)) != 0)
 			continue;

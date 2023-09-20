@@ -112,13 +112,13 @@ void tokenize_line(char ***pieces_array, char *line, int *count)
  */
 void free_data(char ***pieces_array, char **line, int i, int count)
 {
-	if (pieces_array) 
+	if (pieces_array)
 	{
 		for (i = 0; i < count; i++)
 			free((*pieces_array)[i]);
 		free(*pieces_array);
 	}
-	if (line) 
+	if (line)
 	{
 		free(*line);
 		*line = NULL;
@@ -150,7 +150,7 @@ void check_builtins(int checker, char ***pieces_array,
 		return;
 	} else if (checker == 3)
 	{
-		cd_command(*pieces_array[1], av, count);
+		cd_command((*pieces_array)[1], av, count);
 		free_data(*&pieces_array, *&line, i, count);
 		return;
 	}
