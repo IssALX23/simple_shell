@@ -61,7 +61,7 @@ int main(int ac, char **av)
 			exit(0);
 		}
 		else if ((_execute_cmd(pieces_array[0], &pieces_array,
-						av[0], &line, count)) = 2)
+						av[0], &line, count)) == 2)
 			continue;
 		free_data(&pieces_array, &path, i, count);
 	}
