@@ -28,12 +28,12 @@ int _execute_cmd(char *command, char ***pieces_array,
 	if (child == -1)
 	{
 		perror("failed to fork\n");
-		exit(1);
+		exit(0);
 	}
 
 	if (child == 0)
 	{
-		val = execve(path, *pieces_array, NULL);
+		val = execve(path, *pieces_array, environ);
 		if (val == -1)
 		{
 			perror("error executing\n");
@@ -42,7 +42,7 @@ int _execute_cmd(char *command, char ***pieces_array,
 				free(*pieces_array[i]);
 			free(*pieces_array);
 			free(path);
-			exit(1);
+			exit(0);
 		}
 	} else
 	{

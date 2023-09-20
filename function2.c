@@ -7,8 +7,12 @@
  */
 void rm_newline(char *str)
 {
-	int count = strlen(str);
+	int count = 0;
 
+	if (str == NULL)
+		return;
+
+	count = strlen(str);
 	if (str[count - 1] == '\n')
 		str[count - 1] = '\0';
 }

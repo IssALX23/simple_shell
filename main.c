@@ -15,6 +15,10 @@ int main(int ac, char **av)
 
 	while (1)
 	{
+		if (isatty(fileno(stdin)))
+		{
+			printf("$ ");
+		}
 		getInput(&line, &buffer);
 		sp_count = nmb_spaces(line);
 		if (sp_count == 0)
@@ -45,19 +49,19 @@ int main(int ac, char **av)
 			free_data(&pieces_array, &line, i, count);
 			continue;
 		}
-		if (strcmp(pieces_array[0], "exit") == 0 ||
+		if (strcmp(pieces_array[0], "cd") == 0 ||
 				strcmp(pieces_array[0], "env") == 0)/* handle built-ins*/
 		{
-			check_builtins(strcmp(pieces_array[0], "exit") == 0 ? 1 : 2,
+			check_builtins(strcmp(pieces_array[0], "cd") == 0 ? 3 : 2,
 					&pieces_array, &line, i, count, av);
 			continue;
-		} else if (strcmp(pieces_array[0], "cd") == 0)
+		} else if (strcmp(pieces_array[0], "exit") == 0)
 		{
-			check_builtins(3, &pieces_array, &line, i, count, av);
-			continue;
+			check_builtins(1, &pieces_array, &line, i, count, av);
+			exit(0);
 		}
-		if ((_execute_cmd(pieces_array[0], &pieces_array,
-						av[0], &line, count)) != 0)
+		else if ((_execute_cmd(pieces_array[0], &pieces_array,
+						av[0], &line, count)) = 2)
 			continue;
 		free_data(&pieces_array, &path, i, count);
 	}

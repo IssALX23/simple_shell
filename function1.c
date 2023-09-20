@@ -48,22 +48,19 @@ void getInput(char **line, size_t *buffer)
 		free(*line);
 		*line = NULL;
 	}
-	do {
-		printf("$ ");
-		characters = getline(line, buffer, stdin);
-		if (characters == -1)
+	characters = getline(line, buffer, stdin);
+	if (characters == -1)
+	{
+		if (feof(stdin))
 		{
-			if (feof(stdin))
-			{
-				fprintf(stderr, "exit\n");
-				free(*line); /* fix the still reachable data */
-				exit(0);
-			}
-			perror("getline error during reading\n");
-			exit(1);
+			printf("exit\n");
+			free(*line); /* fix the still reachable data */
+			exit(0);
 		}
-		rm_newline(*line);
-	} while (!**line);
+		perror("getline error during reading\n");
+		exit(0);
+	}
+	rm_newline(*line);
 }
 /**
  * tokenize_line - Splits a string into an array of tokens.
@@ -131,7 +128,7 @@ void free_data(char ***pieces_array, char **line, int i, int count)
  * @line: A pointer to a string
  * @i: integer
  * @count: integer
- * av: array of arguments
+ * @av: array of arguments
  *
  * Return: void
  */
@@ -140,18 +137,18 @@ void check_builtins(int checker, char ***pieces_array,
 {
 	if (checker == 1)
 	{
-		free_data(*&pieces_array, *&line, i, count);
+		free_data(pieces_array, line, i, count);
 		fprintf(stderr, "exit\n");
-		exit(1);
+		exit(0);
 	} else if (checker == 2)
 	{
 		print_env();
-		free_data(*&pieces_array, *&line, i, count);
+		free_data(pieces_array, line, i, count);
 		return;
 	} else if (checker == 3)
 	{
 		cd_command((*pieces_array)[1], av, count);
-		free_data(*&pieces_array, *&line, i, count);
+		free_data(pieces_array, line, i, count);
 		return;
 	}
 }
