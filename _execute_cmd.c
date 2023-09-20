@@ -28,7 +28,7 @@ int _execute_cmd(char *command, char ***pieces_array,
 	if (child == -1)
 	{
 		perror("failed to fork\n");
-		exit(0);
+		exit(1);
 	}
 
 	if (child == 0)
@@ -42,7 +42,7 @@ int _execute_cmd(char *command, char ***pieces_array,
 				free(*pieces_array[i]);
 			free(*pieces_array);
 			free(path);
-			exit(0);
+			exit(2);
 		}
 	} else
 	{

@@ -53,7 +53,6 @@ void getInput(char **line, size_t *buffer)
 	{
 		if (feof(stdin))
 		{
-			printf("exit\n");
 			free(*line); /* fix the still reachable data */
 			exit(0);
 		}
@@ -138,7 +137,6 @@ void check_builtins(int checker, char ***pieces_array,
 	if (checker == 1)
 	{
 		free_data(pieces_array, line, i, count);
-		fprintf(stderr, "exit\n");
 		exit(0);
 	} else if (checker == 2)
 	{
