@@ -14,6 +14,7 @@
 #include <errno.h>
 
 extern char **environ;
+extern int command_failed;
 
 char *_which(char *cmd);
 char *_print_env(void);

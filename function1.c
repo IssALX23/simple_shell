@@ -137,7 +137,7 @@ void check_builtins(int checker, char ***pieces_array,
 	if (checker == 1)
 	{
 		free_data(pieces_array, line, i, count);
-		exit(0);
+		exit(command_failed ? 2 : 0); /*Use flag for status*/
 	} else if (checker == 2)
 	{
 		print_env();

@@ -1,4 +1,22 @@
 #include "main.h"
+int command_failed = 0;
+/**
+ * check_dir - checks if given path is a directory
+ * @str: input string for path
+ *
+ * Return: 0 when found or 2 when not found
+ */
+int check_dir(char *str)
+{
+	const char *path = str;
+	struct stat info;
+	int result = stat(path, &info);
+
+	if (result == 0 && S_ISDIR(info.st_mode)) 
+		return 0;
+	else
+	  return (2);
+}
 /**
  * main - Entry point of the shell program.
  * @ac: The number of command-line arguments.

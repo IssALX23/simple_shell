@@ -24,6 +24,10 @@ int _execute_cmd(char *command, char ***pieces_array,
 		free(*pieces_array);
 		return (2);
 	}
+	if (check_dir((*pieces_array)[1]) == 0)
+		command_failed = 0;
+	else
+		command_failed = 2;
 	child = fork();
 	if (child == -1)
 	{
