@@ -32,4 +32,5 @@ int _execute_cmd(char *command, char ***pieces_array,
 void free_data(char ***pieces_array, char **line, int i, int count);
 void check_builtins(int checker, char ***pieces_array, char **line, int i,
 		int count, char **av);
+int check_dir(char *str);
 #endif

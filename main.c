@@ -15,7 +15,7 @@ int check_dir(char *str)
 	if (result == 0 && S_ISDIR(info.st_mode)) 
 		return 0;
 	else
-	  return (2);
+		return (2);
 }
 /**
  * main - Entry point of the shell program.
