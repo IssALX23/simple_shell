@@ -70,6 +70,7 @@ int main(int ac, char **av)
 					fprintf(stderr, "%s: line 1: %s: %s: numeric argument required\n", av[0], pieces_array[0], pieces_array[1]);
 					free_data(&pieces_array, &line, i, count);
 					exit(2);
+				}
 			} else
 			{
 				check_builtins(1, &pieces_array, &line, i, count, av);
