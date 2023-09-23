@@ -1,3 +1,4 @@
+
 /**
  * check_dir - checks if given path is a directory
  * @str: input string for path

@@ -23,8 +23,7 @@ void cd_command(char *directory, char *av[], int count)
 		fprintf(stderr, "%s : cd : %s : too many arguments\n", av[0], directory);
 	} else if (chdir(directory) != 0)
 	{
-		fprintf(stderr, "%s :line 1: cd : %s : No such file or directory\n",av[0]
-				directory);
+		fprintf(stderr, "%s :line 1: cd : %s : No such file or directory\n",av[0], directory);
 		exit(127);
 	} else
 	{
