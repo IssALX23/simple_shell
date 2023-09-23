@@ -1,23 +1,6 @@
 #include "main.h"
 int command_failed = 0;
 /**
- * check_dir - checks if given path is a directory
- * @str: input string for path
- *
- * Return: 0 when found or 2 when not found
- */
-int check_dir(char *str)
-{
-	const char *path = str;
-	struct stat info;
-	int result = stat(path, &info);
-
-	if (result == 0 && S_ISDIR(info.st_mode)) 
-		return 0;
-	else
-		return (2);
-}
-/**
  * main - Entry point of the shell program.
  * @ac: The number of command-line arguments.
  * @av: An array of strings representing the command-line arguments.
@@ -75,8 +58,23 @@ int main(int ac, char **av)
 			continue;
 		} else if (strcmp(pieces_array[0], "exit") == 0)
 		{
-			check_builtins(1, &pieces_array, &line, i, count, av);
-			exit(0);
+			if (pieces_array[1])
+			{
+				if (is_numeric(pieces_array[1]))
+				{
+					exit_stat = atoi(pieces_array[1]);
+					check_builtins(1, &pieces_array, &line, i, count, av);
+					exit(exit_stat);
+				} else
+				{
+					fprintf(stderr, "%s: line 1: %s: %s: numeric argument required\n", av[0], pieces_array[0], pieces_array[1]);
+					free_data(&pieces_array, &line, i, count);
+					exit(2);
+			} else
+			{
+				check_builtins(1, &pieces_array, &line, i, count, av);
+				exit(0);
+			}
 		}
 		else if ((_execute_cmd(pieces_array[0], &pieces_array,
 						av[0], &line, count)) == 2)

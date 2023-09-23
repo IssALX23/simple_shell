@@ -15,6 +15,7 @@
 
 extern char **environ;
 extern int command_failed;
+extern int exit_stat;
 
 char *_which(char *cmd);
 char *_print_env(void);
@@ -33,4 +34,5 @@ void free_data(char ***pieces_array, char **line, int i, int count);
 void check_builtins(int checker, char ***pieces_array, char **line, int i,
 		int count, char **av);
 int check_dir(char *str);
+int is_numeric(char *str);
 #endif
