@@ -1,5 +1,6 @@
 #include "main.h"
 int command_failed = 0;
+int exit_stat = 0;
 /**
  * main - Entry point of the shell program.
  * @ac: The number of command-line arguments.
@@ -8,7 +9,7 @@ int command_failed = 0;
  */
 int main(int ac, char **av)
 {
-	int count = 0, i = 0, j = 0, sp_count = 0, exit_stat = 0,
+	int count = 0, i = 0, j = 0, sp_count = 0,
 	    (*validate_char)(char) = check_char, valid_chars = 0;
 	char *line = NULL, **pieces_array = NULL, *path = NULL;
 	size_t buffer = 0;
