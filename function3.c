@@ -22,7 +22,7 @@ int check_dir(char *str)
  *
  * Return: 0 if not numeric and 1 if it is
  */
-int is_numeric(const char *str) {
+int is_numeric(char *str) {
 	int i = 0;
 
 	if (str[i] == '-')
